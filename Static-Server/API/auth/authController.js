@@ -19,8 +19,14 @@ exports.login = function (req, res) {
             console.log("User found!");
             //TODO: need to decrypt the password coming out
             if(u.password == params.password) {
-                //
-                console.log("You should be logged in!");
+                // set session
+                // send the user information back somehow?
+                // do i send the projects?
+                // user object? I'm unsure how to let my project know what's up
+                return res.status(200).json({
+                    'success': true,
+                    'user': u
+                });
             } else {
                 return res.status(409).json({
                     'success': false,

@@ -14,9 +14,11 @@ class UserLoginForm extends Component {
             emailValue: "",
             passwordValue: ""
         };
+
         this.handleLogin = this.handleLogin.bind(this);
         this.setEmail = this.setEmail.bind(this);
         this.setPassword = this.setPassword.bind(this);
+        this.test = this.test.bind(this);
     }
 
     decrypt = password => {
@@ -24,6 +26,11 @@ class UserLoginForm extends Component {
         var plaintext = bytes.toString(crypto.enc.Utf8);
         return plaintext;
     }
+
+    test = () => {
+        console.log(this.props.name);
+    }
+
 
     handleLogin = async event => {
         event.preventDefault();
@@ -38,13 +45,18 @@ class UserLoginForm extends Component {
                     email: this.state.emailValue,
                     password: this.state.passwordValue
                 }).then(function (response) {
-                    // console.log(response);
-                    // console.log("Login post request sent");
+                    console.log("Yay! User logged in");
+                    console.log(response.data.user.email);
+                    // change page to log in their projects
+                    // console.log(this.props.name);
                 }).catch(function (error) {
-                    // console.log(error);
-                    console.log("Login post request sensdt");
+                    // check error and parse body to respond to the user correctly with bad login
+                    console.log("Login post had error");
+                    console.log(error)
                 });
-
+                //TODO: should I only do this if I don't get an error? Depends on the type of error too?
+                //TODO: should I set the session here then? And then keep the user authenticated? IDK UGH
+                this.props.setUserAuth();
             } else {
                 console.log(this.state.passwordValue);
                 console.log("Invalid password");
@@ -54,16 +66,6 @@ class UserLoginForm extends Component {
             this.setState({emailErrorMessage: "Email is required"});
         }
 
-
-        // check that auth exists
-        // if true:
-        // check that passwords match
-        // if true: login - send to auth page
-        // if false: inform auth that the password doesn't match
-        // this.setState({passwordErrorMessage: "Incorrect password"})
-        // if false:
-        // set error message that auth doesn't exist, register instead
-        // this.setState({emailErrorMessage: "No auth found"});
     }
 
     setEmail = value => {

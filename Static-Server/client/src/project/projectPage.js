@@ -68,15 +68,29 @@ class MainLandingPage extends Component {
         // reload project list again because project will be deleted
     }
 
-    startServing() {
+    startServing = async event => {
+        event.preventDefault();
+
         if (this.state.currentProject != "") {
             this.state.currentProject.currentlyServingProject = true;
             this.setState({servingCurrentProject: true});
             // send a get request with the username/projectname as parameters - express will then respond with the file names
             // maybe let them know that the index file needs to be
             // I then open up a new tab with the index.file
+            axios.get('/projcts', {
+                email: 'test@gmail.com',
+                projectTitle: 'Static Website'
+            }).then(function (response) {
+                console.log("Yay! User logged in");
+                console.log(response.data.user.email);
+                // change page to log in their projects
+                // console.log(this.props.name);
+            }).catch(function (error) {
+                // check error and parse body to respond to the user correctly with bad login
+                console.log("Login post had error");
+                console.log(error)
+            });
         }
-
 
     }
 

@@ -22,6 +22,26 @@
   color: #61dafb;
 }
 
+.form-holder {
+  margin: auto;
+  text-align: center;
+  padding: 10%;
+  /*background-color: greenyellow;*/
+}
+
+.table {
+  margin: auto;
+  text-content: center;
+  /*padding: 10px;*/
+  width: 100%;
+  text-align: center;
+  /*background-color: blue;*/
+}
+
+.text-box-vertical {
+  vertical-align: middle;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
