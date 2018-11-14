@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Button from '@material-ui/core/Button';
+import axios from 'axios';
 
 
 class MainLandingPage extends Component {
@@ -70,14 +71,14 @@ class MainLandingPage extends Component {
 
     startServing = async event => {
         event.preventDefault();
-
-        if (this.state.currentProject != "") {
-            this.state.currentProject.currentlyServingProject = true;
-            this.setState({servingCurrentProject: true});
+        // if (this.state.currentProject != "") {
+            console.log("Somethine else tring to happen");
+            // this.state.currentProject.currentlyServingProject = true;
+            // this.setState({servingCurrentProject: true});
             // send a get request with the username/projectname as parameters - express will then respond with the file names
             // maybe let them know that the index file needs to be
             // I then open up a new tab with the index.file
-            axios.get('/projcts', {
+            axios.post('/project', {
                 email: 'test@gmail.com',
                 projectTitle: 'Static Website'
             }).then(function (response) {
@@ -90,7 +91,7 @@ class MainLandingPage extends Component {
                 console.log("Login post had error");
                 console.log(error)
             });
-        }
+        // }
 
     }
 

@@ -11,7 +11,7 @@ import './App.css';
 class App extends Component {
     constructor(props) {
         super(props);
-        this.state = {userAuthenticated: false, login: true};
+        this.state = {userAuthenticated: true, login: true};
 
         this.switchSubmit = this.switchSubmit.bind(this);
         this.setUserAuthenticatedState = this.setUserAuthenticatedState.bind(this);
