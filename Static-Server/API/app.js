@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 const db = require('../back-end/mymongo');
+const path = require('path');
 
 
 // console.log that your server is up and running
@@ -25,6 +26,7 @@ var store = new MongoDBStore({
 
 app.use(require('express-session')({secret:"secret shhh", store: store, resave: true, saveUnititialized: true, cookie: {secure:false, maxAge: 900000}}));
 app.use(bodyParser.json());
+app.use(express.static(path.join(__dirname, 'Static Website')));
 
 // var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -44,7 +46,9 @@ store.on('error', function(error) {
     assert.ok(false);
 });
 
-
+app.get('/bullshit', function(req, res){
+    res.send("hello world");
+});
 
 /*
     routing paths
