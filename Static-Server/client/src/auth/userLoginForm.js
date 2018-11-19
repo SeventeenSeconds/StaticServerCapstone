@@ -18,49 +18,28 @@ class UserLoginForm extends Component {
         this.handleLogin = this.handleLogin.bind(this);
         this.setEmail = this.setEmail.bind(this);
         this.setPassword = this.setPassword.bind(this);
-        this.test = this.test.bind(this);
     }
-
-    decrypt = password => {
-        var bytes = crypto.AES.decrypt(password.toString(), 'bikes 666');
-        var plaintext = bytes.toString(crypto.enc.Utf8);
-        return plaintext;
-    }
-
-    test = () => {
-        console.log(this.props.name);
-    }
-
 
     handleLogin = async event => {
         event.preventDefault();
-        // var string = this.decrypt(this.refs.password.value);
-        console.log("Attempting to login with " + this.state.emailValue + " and " + this.state.passwordValue);
-        if (this.state.emailValue !== null && this.state.emailValue !== "") {
-            // check email
-            console.log("valid email");
-            if (this.state.passwordValue !== null && this.state.passwordValue.length >= 4) {
-                console.log("Valid password");
-                axios.post('/auth/login', {
+        if (this.state.emailValue !== null && this.state.emailValue.trim() !== "") {
+            if (this.state.passwordValue !== null && this.state.passwordValue.trim() !== "") {
+                var validLogin = false;
+                axios.post('/auth/loginMode', {
                     email: this.state.emailValue,
                     password: this.state.passwordValue
-                }).then(function (response) {
-                    console.log("Yay! User logged in");
-                    console.log(response.data.user.email);
-                    // change page to log in their projects
-                    // console.log(this.props.name);
-                }).catch(function (error) {
-                    // check error and parse body to respond to the user correctly with bad login
-                    console.log("Login post had error");
-                    console.log(error)
+                }).then((response) => {
+                    //TODO: get projects from return and pass as props to project page
+                    this.props.setUserAuth();
+                }).catch((error) => {
+                    console.log(error);
+                    this.setState({
+                        emailErrorMessage: "Your email or password is incorrect.",
+                        passwordErrorMessage: "Your email or password is incorrect."
+                    });
                 });
-                //TODO: should I only do this if I don't get an error? Depends on the type of error too?
-                //TODO: should I set the session here then? And then keep the user authenticated? IDK UGH
-                this.props.setUserAuth();
             } else {
-                console.log(this.state.passwordValue);
-                console.log("Invalid password");
-                // password is not sufficient - inform user
+                this.setState({passwordErrorMessage: "Password is required."});
             }
         } else {
             this.setState({emailErrorMessage: "Email is required"});
@@ -69,12 +48,10 @@ class UserLoginForm extends Component {
     }
 
     setEmail = value => {
-        console.log('attempting to change email value');
         this.setState({emailValue: value.currentTarget.value});
     }
 
     setPassword = value => {
-        console.log('attempting to change password value');
         this.setState({passwordValue: value.currentTarget.value});
     }
 

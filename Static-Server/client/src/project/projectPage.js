@@ -5,6 +5,7 @@ import Button from '@material-ui/core/Button';
 import axios from 'axios';
 
 
+
 class MainLandingPage extends Component {
     constructor(props) {
         super(props);
@@ -87,7 +88,7 @@ class MainLandingPage extends Component {
                 // change page to log in their projects
                 // console.log(this.props.name);
             }).catch(function (error) {
-                // check error and parse body to respond to the user correctly with bad login
+                // check error and parse body to respond to the user correctly with bad loginMode
                 console.log("Login post had error");
                 console.log(error)
             });

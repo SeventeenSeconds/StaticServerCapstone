@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-
-var crypto = require("crypto-js");
+import axios from 'axios';
 
 class UserRegisterForm extends Component {
+
     constructor(props) {
         super(props);
         this.state = {
@@ -17,7 +17,9 @@ class UserRegisterForm extends Component {
             emailErrorMessage: "",
             passwordErrorMessage: "",
             confirmPasswordErrorMessage: "",
-            usernameErrorMessage: ""
+            usernameErrorMessage: "",
+            allEmails: [],
+            allUsernames: []
         };
 
         this.handleRegistration = this.handleRegistration.bind(this);
@@ -26,52 +28,71 @@ class UserRegisterForm extends Component {
         this.validateUsername = this.validateUsername.bind(this);
     }
 
-    encriptPassword = password => {
-        var encriptedPassword = crypto.AES.encrypt(password, 'bikes 666');
-        return encriptedPassword.toString();
+    componentDidMount() {
+        console.log('component did mount');
+        // make call to db to get all usernames and all emails sent back
+        axios.get('/auth/getUsernames')
+            .then((response) => {
+                console.log(response.data.emails);
+                this.setState({allEmails: response.data.emails});
+                this.setState({allUsernames: response.data.usernames});
+            })
+            .catch((error) => {
+                //TODO: respond to user that the data couldn't be pulled for validation?
+                //TODO: it's actually a validation error on my servers end - how do I tell the user?
+            });
+        //TODO: plus if it fails, the setting is outside the catch - how do i deal with this?
+
     }
 
-    handleRegistration(event) {
+    handleRegistration = async event => {
         event.preventDefault();
-        var pass = this.encriptPassword(this.refs.password.value);
-        console.log(pass);
-        // check that current auth doesn't exist
 
-        // check that the username isn't taken
-        // change the username message to "That username is already taken, please enter another"
-        // clear the textbox
-
-        // double check that both passwords match
+        if (this.state.validEmail && this.state.validUsername && this.state.validPassword) {
+            axios.post('/auth/register', {
+                email: this.state.emailValue,
+                password: this.state.passwordValue,
+                username: this.state.usernameValue
+            }).then((response) => {
+                console.log(response);
+                this.props.setUserAuth(true);
+            }).catch((error) => {
+                console.log(error);
+                this.setState({usernameErrorMessage: "Your account could not be registered"});
+            });
+        }
     }
 
     validateEmail = value => {
-        this.setState({emailValue: value.currentTarget.value});
+        this.setState({emailValue: value.currentTarget.value.trim()});
+
         let validEmail = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/.test(value.currentTarget.value);
-        if (validEmail) {
-            this.setState({validateEmail: true, emailErrorMessage: ""});
+        if (this.state.emailValue !== null && this.state.emailValue !== "" && validEmail) {
+            if (this.state.allEmails.includes(value.currentTarget.value)) {
+                this.setState({validEmail: false, emailErrorMessage: "Email is already registered."});
+            } else {
+                this.setState({validEmail: true, emailErrorMessage: "", emailValue: value.currentTarget.value});
+            }
         } else {
-            this.setState({validateEmail: true, emailErrorMessage: "Invalid email address"});
+            this.setState({validEmail: false, emailErrorMessage: "Invalid email address"});
         }
     }
 
     validatePassword = value => {
         this.setState({passwordValue: value.currentTarget.value});
-        if (value.currentTarget.value !== this.state.confirmPasswordValue) {
+
+        if (value.currentTarget.value === "") {
+            this.setState({validPassword: false, passwordErrorMessage: "You must enter a password"});
+        } else if (value.currentTarget.value !== this.state.confirmPasswordValue) {
             this.setState({validPassword: false, confirmPasswordErrorMessage: "Your passwords do not match"});
         } else {
-            console.log("passwords matched");
             this.setState({validPassword: true, confirmPasswordErrorMessage: ""});
-        }
-
-        if (value.currentTarget.value.length >= 4) {
-            this.setState({passwordErrorMessage: ""});
-        } else {
-            this.setState({validPassword: false, passwordErrorMessage: "Your password must be 4 characters"});
         }
     }
 
     confirmPassword = value => {
         this.setState({confirmPasswordValue: value.currentTarget.value});
+
         if (value.currentTarget.value === this.state.passwordValue) {
             this.setState({validPassword: true, confirmPasswordErrorMessage: ""});
         } else {
@@ -80,11 +101,17 @@ class UserRegisterForm extends Component {
     }
 
     validateUsername = value => {
-        if (value.currentTarget.value.length > 0) {
-            this.setState({usernameErrorMessage: ""});
+        this.setState({usernameValue: value.currentTarget.value});
+
+        if (this.state.allUsernames.includes(value.currentTarget.value)) {
+            this.setState({validUsername: false, usernameErrorMessage: "Username is already registered."});
+        } else if (value.currentTarget.value === "") {
+            this.setState({validUsername: false, usernameErrorMessage: "You must enter a username"})
         } else {
-            this.setState({usernameErrorMessage: "You must enter a username"});
+            this.setState({validUsername: true, usernameErrorMessage: "", usernameValue: value.currentTarget.value});
         }
+
+
     }
 
     render() {
@@ -142,8 +169,6 @@ class UserRegisterForm extends Component {
                         type="button" onClick={this.handleRegistration}>Register!
                     </Button>
                 </table>
-
-
             </form>
         );
     }

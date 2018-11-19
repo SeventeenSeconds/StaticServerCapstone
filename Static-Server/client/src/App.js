@@ -11,23 +11,32 @@ import './App.css';
 class App extends Component {
     constructor(props) {
         super(props);
-        this.state = {userAuthenticated: true, login: true};
+        this.state = {userAuthenticated: true, loginMode: true};
 
         this.switchSubmit = this.switchSubmit.bind(this);
         this.setUserAuthenticatedState = this.setUserAuthenticatedState.bind(this);
+        this.logout = this.logout.bind(this);
     }
 
     switchSubmit(event) {
         event.preventDefault();
-        if (this.state.login) {
-            this.setState({login: false});
+        if (this.state.userAuthenticated) {
+            this.logout();
         } else {
-            this.setState({login: true});
+            if (this.state.loginMode) {
+                this.setState({loginMode: false});
+            } else {
+                this.setState({loginMode: true});
+            }
         }
     }
 
+    logout = () => {
+        console.log("Logout has been pressed.");
+        this.setState({userAuthenticated: false});
+    }
+
     setUserAuthenticatedState = () => {
-        console.log("user auth state changed");
         this.setState({userAuthenticated: true});
     }
 
@@ -36,18 +45,15 @@ class App extends Component {
         let page, submitOption;
         if (this.state.userAuthenticated) {
             page = <ProjectPage/>;
-            // maybe set the menu so they can edit page??? IDK?
+            submitOption = "Logout";
+            // need to get an add project bar?
         } else {
-            if (this.state.userAuthenticated) {
-                submitOption = "Logout";
+            if (this.state.loginMode) {
+                submitOption = "New user? Register!";
+                page = <UserLoginForm setUserAuth={this.setUserAuthenticatedState}/>;
             } else {
-                if (this.state.login) {
-                    submitOption = "New user? Register!";
-                    page = <UserLoginForm setUserAuth={this.setUserAuthenticatedState}/>;
-                } else {
-                    submitOption = "Already a user? Login!";
-                    page = <UserRegisterForm/>;
-                }
+                submitOption = "Already a user? Login!";
+                page = <UserRegisterForm setUserAuth={this.setUserAuthenticatedState}/>;
             }
 
         }
@@ -57,8 +63,9 @@ class App extends Component {
 
             <div className="App">
                 <AppBar postition="static">
-                    <Toolbar>
+                    <Toolbar color="grey">
                         <Button onClick={this.switchSubmit}>{submitOption}</Button>
+
                     </Toolbar>
                 </AppBar>
                 <div class="form-holder">
