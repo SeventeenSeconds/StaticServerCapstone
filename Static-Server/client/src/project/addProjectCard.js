@@ -53,15 +53,15 @@ class AddProjectCard extends Component {
                 data.append('action', 'ADD');
                 data.append('param', 0);
                 data.append('secondParam', 0);
-                data.append('file', new File(file), {type: '/*'});
+                data.append('file', new Blob([file], {type: 'image/*'}));
 
-                this.uploadFiles();
+                this.uploadFiles(data);
 
             });
     }
 
-    uploadFiles = async (event, data) => {
-        event.preventDefault();
+    uploadFiles = async (data) => {
+        console.log("Here");
         axios.post('/project/uploadProject', data, {
             headers: {
                 'Content-Type': 'multipart/form-data'
