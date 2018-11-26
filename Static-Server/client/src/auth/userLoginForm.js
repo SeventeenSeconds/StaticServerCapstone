@@ -3,8 +3,6 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import axios from 'axios';
 
-var crypto = require("crypto-js");
-
 class UserLoginForm extends Component {
     constructor(props) {
         super(props);
@@ -29,8 +27,9 @@ class UserLoginForm extends Component {
                     email: this.state.emailValue,
                     password: this.state.passwordValue
                 }).then((response) => {
-                    //TODO: get projects from return and pass as props to project page
                     this.props.setUserAuth();
+                    //TODO: get projects from return and pass as props to project page
+
                 }).catch((error) => {
                     console.log(error);
                     this.setState({

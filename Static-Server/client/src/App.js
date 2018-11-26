@@ -63,7 +63,7 @@ class App extends Component {
 
             <div className="App">
                 <AppBar postition="static">
-                    <Toolbar color="grey">
+                    <Toolbar>
                         <Button onClick={this.switchSubmit}>{submitOption}</Button>
 
                     </Toolbar>

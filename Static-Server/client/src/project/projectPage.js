@@ -2,9 +2,8 @@ import React, {Component} from 'react';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Button from '@material-ui/core/Button';
+import AddProjectCard from './addProjectCard';
 import axios from 'axios';
-
-
 
 class MainLandingPage extends Component {
     constructor(props) {
@@ -12,26 +11,36 @@ class MainLandingPage extends Component {
         this.state = {
             currentProject: "",
             servingCurrentProject: "",
-            backgroundColor: ""
+            backgroundColor: "",
+            projects: [],
+            file: ""
         };
 
         this.startServing = this.startServing.bind(this);
         this.stopServing = this.stopServing.bind(this);
-        this.addProject = this.addProject.bind(this);
         this.deleteProject = this.deleteProject.bind(this);
     }
 
 
     styles = {
         divStyle: {
-            backgroundColor: '#00ffff',
+            backgroundColor: '#000ffff',
             margin: "auto",
-            width: '100%'
+            width: '100%',
+            border: '10%',
         },
         table: {
             height: '100%',
             width: '100%',
-            backgroundColor: '#0fffff',
+            backgroundColor: '#ffffa0',
+        },
+        tableRow: {
+            align: 'center',
+        },
+        addProjectCard: {
+            position: "absolute",
+            top: 0,
+            left: 0,
         }
     }
 
@@ -50,55 +59,42 @@ class MainLandingPage extends Component {
 // if they try to search for the files to serve, you can't serve them a 404
 // if they start serving, move the cold files back from cold storage
 
-    addProject() {
-        // some button or icon that adds a new project
-        // pull open user's files - maybe tell them that the project needs to be inside at least 1 project folder
-        // or maybe i can control that?
 
-        // also - maybe I can specify and look through the file names and make sure they only updload .css, .js. or .html files?
-
-        // when the user uploads the project files, make sure the paths in the directory point to the outside directory
-        // else the file paths will not locate the correct place - ../ or whatever the equivalent is
-
-        // you'll have to add it to the db or whatever and pull the list again so the components update
-    }
-
-    deleteProject() {
+    deleteProject = () => {
         if (this.state.currentProject != null) {
 
         }
         // reload project list again because project will be deleted
     }
 
-    startServing = async event => {
-        event.preventDefault();
+    startServing = () => {
+        // event.preventDefault();
         // if (this.state.currentProject != "") {
-            console.log("Somethine else tring to happen");
-            // this.state.currentProject.currentlyServingProject = true;
-            // this.setState({servingCurrentProject: true});
-            // send a get request with the username/projectname as parameters - express will then respond with the file names
-            // maybe let them know that the index file needs to be
-            // I then open up a new tab with the index.file
-            axios.post('/project', {
-                email: 'test@gmail.com',
-                projectTitle: 'Static Website'
-            }).then(function (response) {
-                console.log("Yay! User logged in");
-                console.log(response.data.user.email);
-                // change page to log in their projects
-                // console.log(this.props.name);
-            }).catch(function (error) {
-                // check error and parse body to respond to the user correctly with bad loginMode
-                console.log("Login post had error");
-                console.log(error)
-            });
+        console.log("Somethine else tring to happen");
+        // this.state.currentProject.currentlyServingProject = true;
+        // this.setState({servingCurrentProject: true});
+        // send a get request with the username/projectname as parameters - express will then respond with the file names
+        // maybe let them know that the index file needs to be
+        // I then open up a new tab with the index.file
+        axios.post('/project', {
+            email: 'test@gmail.com',
+            projectTitle: 'Static Website'
+        }).then(function (response) {
+            console.log("Yay! User logged in");
+            console.log(response.data.user.email);
+            // change page to log in their projects
+            // console.log(this.props.name);
+        }).catch(function (error) {
+            // check error and parse body to respond to the user correctly with bad loginMode
+            console.log("Login post had error");
+            console.log(error)
+        });
         // }
 
     }
 
     stopServing() {
-        if (this.state.currentProject != "") {
-            this.state.currentProject.currentlyServingProject = false;
+        if (this.state.currentProject !== "") {
             this.setState({servingCurrentProject: false});
         }
 
@@ -143,10 +139,17 @@ class MainLandingPage extends Component {
 
     render() {
 
+        var addProjectDialog = "";
+
+        if(this.state.projectDialogOpen) {
+            addProjectDialog = <AddProjectCard style={this.styles.addProjectCard}/>;
+        }
+
         return (
 
             <div>
                 <table style={this.styles.table}>
+                    <AddProjectCard />
                     <tr>
                         <td>
                             <List>
@@ -185,7 +188,6 @@ class MainLandingPage extends Component {
                         </td>
                     </tr>
                 </table>
-
             </div>
 
 

@@ -9,6 +9,10 @@ const db = require('../back-end/mymongo');
 const path = require('path');
 
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(require('express-session')({secret:"secret shhh", store: store, resave: true, saveUnititialized: true, cookie: {secure:false, maxAge: 900000}}));
+
 // console.log that your server is up and running
 app.listen(port, () => console.log(`Listening on port ${port}`));
 
@@ -24,8 +28,7 @@ var store = new MongoDBStore({
     collection: 'sessions'
 });
 
-app.use(require('express-session')({secret:"secret shhh", store: store, resave: true, saveUnititialized: true, cookie: {secure:false, maxAge: 900000}}));
-app.use(bodyParser.json());
+
 app.use(express.static(path.join(__dirname, 'Static Website')));
 
 // var db = mongoose.connection;
@@ -44,6 +47,7 @@ store.on('error', function(error) {
     //TODO: if the db can't connect - handle error somehow
     assert.ifError(error);
     assert.ok(false);
+    console.log(error);
 });
 
 app.get('/bullshit', function(req, res){

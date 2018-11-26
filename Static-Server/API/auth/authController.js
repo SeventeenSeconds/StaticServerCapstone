@@ -75,8 +75,8 @@ exports.register = function (req, res) {
 
     });
 
-    // save the user to the database
-    // respond to the user
+    // add the user folder
+
 
     // at some point add the user to the session
 
