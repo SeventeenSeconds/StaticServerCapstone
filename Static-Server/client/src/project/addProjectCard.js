@@ -6,6 +6,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import axios from 'axios';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import Dropzone from 'react-dropzone';
 
 const fileDialog = require('file-dialog');
 
@@ -22,6 +23,8 @@ class AddProjectCard extends Component {
             file: "",
             projectDialogOpen: true
         };
+
+        this.onDrop = this.onDrop.bind(this);
     }
 
     addProject = () => {
@@ -31,9 +34,11 @@ class AddProjectCard extends Component {
         // you'll have to add it to the db or whatever and pull the list again so the components update
     }
 
-    selectFiles = async event => {
-        event.preventDefault();
-        fileDialog({accept: 'images/*'})
+    selectFiles = async () => {
+        // maybe use the drag and drop function? still need to open file dialog I guess though?
+        // But maybe you don't need to use the buttons
+
+        fileDialog({accept: 'file/*'})
             .then(files => {
                 console.log("uploading project");
 
@@ -69,6 +74,12 @@ class AddProjectCard extends Component {
         });
     }
 
+    onDrop(acceptedFiles, rejectedFiles) {
+        console.log("trying to drop files");
+        var af = acceptedFiles;
+        console.log(af);
+    }
+
     handleClickOpen = scroll => () => {
         this.setState({ open: true, scroll });
     };
@@ -92,9 +103,11 @@ class AddProjectCard extends Component {
                         <DialogContentText>
                             Instructions maybe later??
                         </DialogContentText>
-                        <Button onClick={this.selectFiles} color="primary">
-                            Upload Project Files
-                        </Button>
+                    <div>
+                        <Dropzone
+                            accept="image/*"
+                            onDrop={(accepted, rejected) => {this.onDrop(accepted, rejected)}}/>
+                    </div>
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={this.handleClose} color="primary">
