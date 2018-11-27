@@ -3,12 +3,12 @@ import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
+import TextField from '@material-ui/core/TextField';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import axios from 'axios';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Dropzone from 'react-dropzone';
 
-const fileDialog = require('file-dialog');
 const addProjectFiles = [];
 
 class AddProjectCard extends Component {
@@ -20,13 +20,16 @@ class AddProjectCard extends Component {
             currentProject: "",
             servingCurrentProject: "",
             backgroundColor: "",
-            projects: []
+            projects: [],
+            newProjectTitle: "",
+            newProjectErrorMessage: "",
+            validProjectTitle: false,
         };
 
         this.onDrop = this.onDrop.bind(this);
         this.uploadProject = this.uploadProject.bind(this);
+        this.setProjectName = this.setProjectName.bind(this);
     }
-
 
 
     addProject = () => {
@@ -38,19 +41,29 @@ class AddProjectCard extends Component {
 
     uploadProject = async () => {
 
-        const data = new FormData();
+        if (this.state.validProjectTitle && addProjectFiles.length !== 0) {
 
-        addProjectFiles.forEach(file => {
-            data.append('files', file);
-        });
+            const data = new FormData();
+            data.append('projectTitle', this.state.newProjectTitle);
 
-        axios.post('/project/uploadProject', data, {
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            }
-        });
+            addProjectFiles.forEach(file => {
+                data.append('files', file);
+            });
 
-        // don't forget to clear the files list for new project
+            console.log("Project name: " + this.state.newProjectTitle);
+
+            axios.post('/project/uploadProject', data, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+
+            // don't forget to clear the files list for new project
+            // AND project title states, error messages, etc.
+            this.handleClose();
+        } else {
+            this.setState({newProjectErrorMessage: "You must enter a project title."});
+        }
     }
 
     onDrop = (acceptedFiles, rejectedFiles) => {
@@ -75,6 +88,15 @@ class AddProjectCard extends Component {
         this.setState({open: false});
     };
 
+    setProjectName = value => {
+        let val = value.currentTarget.value.trim();
+        if (val !== null && val !== "") {
+            this.setState({newProjectTitle: value.currentTarget.value, validProjectTitle: true, newProjectErrorMessage: ""});
+        } else {
+            this.setState({newProjectErrorMessage: "You must enter a project title.", validProjectTitle: false});
+        }
+    }
+
     render() {
         return (
             <div>
@@ -88,7 +110,13 @@ class AddProjectCard extends Component {
                     <DialogTitle id="scroll-dialog-title">Add Project</DialogTitle>
                     <DialogContent>
                         <DialogContentText>
-                            Instructions maybe later??
+                            <TextField
+                                required
+                                label="Project Title"
+                                margin="normal"
+                                onChange={this.setProjectName}
+                                helperText={this.state.newProjectErrorMessage}
+                            />
                         </DialogContentText>
                         <div>
                             <Dropzone
