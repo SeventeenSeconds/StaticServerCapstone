@@ -1,5 +1,6 @@
 const User = require('../user/userModel');
 var crypto = require("crypto-js");
+const dirUtil = require('../createDirectory');
 
 encriptPassword = password => {
     var encriptedPassword = crypto.AES.encrypt(password, 'bikes 666');
@@ -69,17 +70,15 @@ exports.register = function (req, res) {
             });
         }
 
+        dirUtil.createUserDirectories(params.username);
+
         return res.status(200).json({
             'success': true
         });
 
     });
 
-    // add the user folder
-
-
     // at some point add the user to the session
-
 };
 
 exports.getUsernames = function (req, res) {
