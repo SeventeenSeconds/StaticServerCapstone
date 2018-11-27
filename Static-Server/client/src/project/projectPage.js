@@ -70,7 +70,7 @@ class MainLandingPage extends Component {
     startServing = () => {
         // event.preventDefault();
         // if (this.state.currentProject != "") {
-        console.log("Somethine else tring to happen");
+        console.log("Something else tring to happen");
         // this.state.currentProject.currentlyServingProject = true;
         // this.setState({servingCurrentProject: true});
         // send a get request with the username/projectname as parameters - express will then respond with the file names
@@ -139,11 +139,7 @@ class MainLandingPage extends Component {
 
     render() {
 
-        var addProjectDialog = "";
 
-        if(this.state.projectDialogOpen) {
-            addProjectDialog = <AddProjectCard style={this.styles.addProjectCard}/>;
-        }
 
         return (
 

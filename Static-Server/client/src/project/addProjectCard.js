@@ -9,6 +9,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Dropzone from 'react-dropzone';
 
 const fileDialog = require('file-dialog');
+const addProjectFiles = [];
 
 class AddProjectCard extends Component {
     constructor(props) {
@@ -19,13 +20,14 @@ class AddProjectCard extends Component {
             currentProject: "",
             servingCurrentProject: "",
             backgroundColor: "",
-            projects: [],
-            file: "",
-            projectDialogOpen: true
+            projects: []
         };
 
         this.onDrop = this.onDrop.bind(this);
+        this.uploadProject = this.uploadProject.bind(this);
     }
+
+
 
     addProject = () => {
         console.log("adding projcet");
@@ -34,58 +36,43 @@ class AddProjectCard extends Component {
         // you'll have to add it to the db or whatever and pull the list again so the components update
     }
 
-    selectFiles = async () => {
-        // maybe use the drag and drop function? still need to open file dialog I guess though?
-        // But maybe you don't need to use the buttons
+    uploadProject = async () => {
 
-        fileDialog({accept: 'file/*'})
-            .then(files => {
-                console.log("uploading project");
+        const data = new FormData();
 
-                // for( var i = 0; i < files.length; i++ ){
-                //     let file = this.files[i];
-                //
-                //     formData.append('files[' + i + ']', file);
-                // }
+        addProjectFiles.forEach(file => {
+            data.append('files', file);
+        });
 
-                // formData.append('file', files[0]);
-
-                console.log(files[0]);
-                var file = files[0];
-
-                const data = new FormData();
-
-                data.append('action', 'ADD');
-                data.append('param', 0);
-                data.append('secondParam', 0);
-                data.append('file', new Blob([file], {type: 'image/*'}));
-
-                this.uploadFiles(data);
-
-            });
-    }
-
-    uploadFiles = async (data) => {
-        console.log("Here");
         axios.post('/project/uploadProject', data, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
         });
+
+        // don't forget to clear the files list for new project
     }
 
-    onDrop(acceptedFiles, rejectedFiles) {
-        console.log("trying to drop files");
-        var af = acceptedFiles;
-        console.log(af);
+    onDrop = (acceptedFiles, rejectedFiles) => {
+        // make this for multiple at some point
+        // just add the files to a list - maybe display the list if i have time
+        // also create project folder to save on the backend
+
+        console.log(acceptedFiles);
+
+        console.log();
+
+        acceptedFiles.forEach(file => {
+            addProjectFiles.push(file);
+        });
     }
 
     handleClickOpen = scroll => () => {
-        this.setState({ open: true, scroll });
+        this.setState({open: true, scroll});
     };
 
     handleClose = () => {
-        this.setState({ open: false });
+        this.setState({open: false});
     };
 
     render() {
@@ -103,18 +90,19 @@ class AddProjectCard extends Component {
                         <DialogContentText>
                             Instructions maybe later??
                         </DialogContentText>
-                    <div>
-                        <Dropzone
-                            accept="image/*"
-                            onDrop={(accepted, rejected) => {this.onDrop(accepted, rejected)}}/>
-                    </div>
+                        <div>
+                            <Dropzone
+                                onDrop={(accepted, rejected) => {
+                                    this.onDrop(accepted, rejected)
+                                }}/>
+                        </div>
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={this.handleClose} color="primary">
                             Cancel
                         </Button>
-                        <Button onClick={this.handleClose} color="primary">
-                            Add Project
+                        <Button onClick={this.uploadProject} color="primary">
+                            Upload Project
                         </Button>
                     </DialogActions>
                 </Dialog>

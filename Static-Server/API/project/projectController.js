@@ -1,11 +1,20 @@
 // do i serve my information based on router parameters or body?
-
 exports.uploadProject = function (req, res, next) {
 
-    if (req.file) {
+    console.log("Hereee");
+    if(req.file){
+        console.log("single file uploading");
+    }
+
+    if (req.files) {
+        console.log(req.files);
+        // req.files.forEach(file => {
+        //     console.log(file.name);
+        // });
         console.log('Uploading file...');
-        var filename = req.file.name;
-        console.log(req.file);
+        // console.log(req.file);
+        // console.log(req.file.path);
+
         var uploadStatus = 'File Uploaded Successfully';
     } else {
         console.log('No File Uploaded');
