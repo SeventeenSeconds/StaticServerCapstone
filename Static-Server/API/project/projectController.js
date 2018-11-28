@@ -8,10 +8,11 @@ exports.uploadProject = function (req, res, next) {
         console.log(projectTitle);
         if (req.files) {
 
-            //TODO: save project title to db
             var query = User.where({"email": userEmail});
             query.findOne(function (err, user) {
                 if (err) {
+                    console.log("Find one");
+                    console.log(err);
                     return res.status(500).json({
                         'success': false,
                         'message': "Project could not be saved."
@@ -21,9 +22,11 @@ exports.uploadProject = function (req, res, next) {
                     user.projects.push(projectTitle);
                     user.save(function (err) {
                         if (err) {
+                            console.log("saving one");
+                            console.log(err);
                             return res.status(500).json({
                                 'success': false,
-                                'message': "User could not be added to the database."
+                                'message': "Project could not be added to the database."
                             });
                         }
                     });
@@ -34,51 +37,42 @@ exports.uploadProject = function (req, res, next) {
         } else {
             console.log('No File Uploaded');
         }
-    }
 
-    return res.status(200).json({
-        'success': true
-    });
-    next();
-};
 
-exports.getUserProjects = function (req, res) {
+        var query = User.where({"email": userEmail});
+        query.findOne(function (err, user) {
+            if (err) {
+                console.log(err);
+            }
 
-    var params = req.body;
-
-    // check if user exists
-    var query = User.where({"email": params.email});
-    query.findOne(function (err, user) {
-        if (err) {
-            return res.status(500).json({
-                'success': false,
-                'message': "User could not be retrieved."
-            });
-        }
-        if (user !== null) {
-            console.log("User found!");
-            //TODO: need to decrypt the password coming out
-            if (user.password == params.password) {
-                // set session
-                //TODO: return projects object back to client
-                // project model - find where project username
-                // and return
+            if (user !== null) {
+                var projects = [];
+                user.projects.forEach(function (project) {
+                    projects.push(project);
+                });
                 return res.status(200).json({
                     'success': true,
-                    'user': user
-                });
-            } else {
-                return res.status(409).json({
-                    'success': false,
-                    'message': "Password was incorrect."
+                    'projects': projects
                 });
             }
-        } else {
-            return res.status(409).json({
-                'success': false,
-                'message': "User could not be found."
+        });
+    }
+};
+
+getUserProjects = email => {
+    var projects = [];
+    var query = User.where({"email": email});
+    query.findOne(function (err, user) {
+        if (err) {
+            console.log(err);
+        }
+
+        if (user !== null) {
+            user.projects.forEach(project => {
+                console.log("Project " + project);
+                projects.push(project);
             });
         }
     });
-
-};
+    return projects;
+}

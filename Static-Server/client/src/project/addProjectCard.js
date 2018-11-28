@@ -9,7 +9,7 @@ import axios from 'axios';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Dropzone from 'react-dropzone';
 
-const addProjectFiles = [];
+let addProjectFiles = [];
 
 class AddProjectCard extends Component {
     constructor(props) {
@@ -31,14 +31,6 @@ class AddProjectCard extends Component {
         this.setProjectName = this.setProjectName.bind(this);
     }
 
-
-    addProject = () => {
-        console.log("adding projcet");
-
-
-        // you'll have to add it to the db or whatever and pull the list again so the components update
-    }
-
     uploadProject = async () => {
 
         if (this.state.validProjectTitle && addProjectFiles.length !== 0) {
@@ -55,6 +47,12 @@ class AddProjectCard extends Component {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
+            }).then((response) => {
+                console.log(response.data.projects);
+                // update project page with state
+
+            }).catch((error) => {
+                console.log(error);
             });
 
             //TODO: Add project to to projectLIST client side
@@ -63,12 +61,11 @@ class AddProjectCard extends Component {
             // method on project page that sets the project state
             // just like the register function passed back the array of usernames
             // same with the projects - but set it from here
+            //TODO: set new project array state for display
 
 
-            //TODO:
-            // don't forget to clear the files list for new project
-            // AND project title states, error messages, etc.
-
+            this.setState({newProjectTitle: "", validProjectTitle: false});
+            addProjectFiles = [];
             this.handleClose();
         } else {
             this.setState({newProjectErrorMessage: "You must enter a project title."});
