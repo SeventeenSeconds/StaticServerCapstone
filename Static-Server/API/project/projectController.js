@@ -59,20 +59,20 @@ exports.uploadProject = function (req, res, next) {
     }
 };
 
-getUserProjects = email => {
+exports.getUserProjects = function (userEmail) {
     var projects = [];
-    var query = User.where({"email": email});
+    var query = User.where({"email": userEmail});
     query.findOne(function (err, user) {
         if (err) {
             console.log(err);
         }
 
         if (user !== null) {
-            user.projects.forEach(project => {
-                console.log("Project " + project);
+            user.projects.forEach(function (project) {
                 projects.push(project);
             });
+            return projects
         }
     });
-    return projects;
-}
+    ;
+};

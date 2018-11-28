@@ -1,4 +1,5 @@
 const User = require('../user/userModel');
+const projectController = require('../project/projectController');
 var crypto = require("crypto-js");
 const dirUtil = require('../createDirectory');
 
@@ -35,11 +36,11 @@ exports.loginMode = function (req, res) {
             if (user.password == params.password) {
                 // set session
                 //TODO: return projects object back to client
-                // project model - find where project username
-                // and return
+                var projects = projectController.getUserProjects(params.email);
                 return res.status(200).json({
                     'success': true,
-                    'user': user
+                    'user': user,
+                    'projects': projects
                 });
             } else {
                 return res.status(409).json({

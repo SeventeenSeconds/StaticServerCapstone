@@ -30,7 +30,8 @@ class UserLoginForm extends Component {
                     this.props.setUserAuth(true);
                     this.props.setEmail(this.state.emailValue);
                     //TODO: get projects from return and pass as props to project page
-
+                    // this.props.setProjects(response.projects);
+                    console.log(response.data.projects);
                 }).catch((error) => {
                     console.log(error);
                     this.setState({

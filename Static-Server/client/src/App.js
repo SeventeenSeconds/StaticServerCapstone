@@ -14,13 +14,15 @@ class App extends Component {
         this.state = {
             userAuthenticated: true,
             loginMode: true,
-            userEmail: ""
+            userEmail: "",
+            userProjects: []
         };
 
         this.switchSubmit = this.switchSubmit.bind(this);
         this.setUserAuthenticatedState = this.setUserAuthenticatedState.bind(this);
         this.logout = this.logout.bind(this);
         this.setEmail = this.setEmail.bind(this);
+        this.setUserProjects = this.setUserProjects.bind(this);
     }
 
     switchSubmit(event) {
@@ -34,6 +36,10 @@ class App extends Component {
                 this.setState({loginMode: true});
             }
         }
+    }
+
+    setUserProjects = projects => {
+        this.setState({userProjects: projects});
     }
 
     setEmail = email => {
@@ -52,13 +58,13 @@ class App extends Component {
         // state - user is logged in - change view to projects
         let page, submitOption;
         if (this.state.userAuthenticated) {
-            page = <ProjectPage userEmail={this.state.userEmail}/>;
+            page = <ProjectPage userEmail={this.state.userEmail} userProjects={this.state.userProjects}/>;
             submitOption = "Logout";
             // need to get an add project bar?
         } else {
             if (this.state.loginMode) {
                 submitOption = "New user? Register!";
-                page = <UserLoginForm setEmail={u => this.setEmail(u)} setUserAuth={state => this.setUserAuthenticatedState(state)}/>;
+                page = <UserLoginForm setProjects={p => this.setUserProjects(p)} setEmail={u => this.setEmail(u)} setUserAuth={state => this.setUserAuthenticatedState(state)}/>;
             } else {
                 submitOption = "Already a user? Login!";
                 page = <UserRegisterForm setEmail={u => this.setEmail(u)} setUserAuth={state => this.setUserAuthenticatedState(state)}/>;

@@ -50,6 +50,7 @@ class AddProjectCard extends Component {
             }).then((response) => {
                 console.log(response.data.projects);
                 // update project page with state
+                this.props.setProjects(response.data.projects);
 
             }).catch((error) => {
                 console.log(error);

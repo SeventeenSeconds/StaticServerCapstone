@@ -12,13 +12,18 @@ class MainLandingPage extends Component {
             currentProject: "",
             servingCurrentProject: "",
             backgroundColor: "",
-            projects: [],
+            projects: props.userProjects,
             file: ""
         };
 
         this.startServing = this.startServing.bind(this);
         this.stopServing = this.stopServing.bind(this);
         this.deleteProject = this.deleteProject.bind(this);
+        this.setUserProjects = this.setUserProjects.bind(this);
+    }
+
+    setUserProjects = p => {
+        this.setState({projects: p});
     }
 
 
@@ -145,14 +150,14 @@ class MainLandingPage extends Component {
 
             <div>
                 <table style={this.styles.table}>
-                    <AddProjectCard userEmail={this.props.userEmail}/>
+                    <AddProjectCard userEmail={this.props.userEmail} setProjects={p => this.setUserProjects(p)}/>
                     <tr>
                         <td>
                             <List>
-                                {this.projects.map(function (project) {
+                                {this.state.projects.map(function (project) {
                                     return <ListItem button
                                                      onClick={() => this.setCurrentProject(project)}
-                                    >{project.name}</ListItem>
+                                    >{project}</ListItem>
                                 }, this)}
                             </List>
 
