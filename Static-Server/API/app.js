@@ -64,4 +64,7 @@ app.use("/auth", auth);
 const project = require('./project/projectRouter');
 app.use("/project", project);
 
+const serve = require('./serve/servingRouter');
+app.use("/serve", serve);
+
 module.exports = app;

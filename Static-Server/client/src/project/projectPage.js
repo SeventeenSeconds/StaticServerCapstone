@@ -76,17 +76,11 @@ class MainLandingPage extends Component {
         // event.preventDefault();
         // if (this.state.currentProject != "") {
         console.log("Something else tring to happen");
-        // this.state.currentProject.currentlyServingProject = true;
-        // this.setState({servingCurrentProject: true});
-        // send a get request with the username/projectname as parameters - express will then respond with the file names
-        // maybe let them know that the index file needs to be
-        // I then open up a new tab with the index.file
-        axios.post('/project', {
-            email: 'test@gmail.com',
-            projectTitle: 'Static Website'
+        axios.post('/serve/serveProject', {
+            email: this.props.userEmail,
+            projectTitle: this.state.currentProject
         }).then(function (response) {
-            console.log("Yay! User logged in");
-            console.log(response.data.user.email);
+            console.log(response);
             // change page to log in their projects
             // console.log(this.props.name);
         }).catch(function (error) {
@@ -94,7 +88,6 @@ class MainLandingPage extends Component {
             console.log("Login post had error");
             console.log(error)
         });
-        // }
 
     }
 
@@ -108,11 +101,7 @@ class MainLandingPage extends Component {
 
     setCurrentProject = (project, listItem) => {
         this.setState({currentProject: project});
-        if (project.currentlyServingProject) {
-            this.setState({servingCurrentProject: true, backgroundColor: "#ff0000"});
-        } else {
-            this.setState({servingCurrentProject: false, backgroundColor: "#ff0000"});
-        }
+
         // check the project's state - then you can disable the correct button - if being served, disable start
         // if not being served, disable stop
 
@@ -121,7 +110,7 @@ class MainLandingPage extends Component {
         // when the start server button is called -
 
         //
-        console.log(project.name);
+        console.log(project);
         console.log("Hello world");
     }
 
@@ -184,7 +173,6 @@ class MainLandingPage extends Component {
                                         <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
                                     </Button>
                                 </td>
-
                             </tr>
                         </td>
                     </tr>
