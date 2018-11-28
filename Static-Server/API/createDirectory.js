@@ -4,6 +4,7 @@ const path = require('path');
 //TODO: Change after downloading project on pi
 hotPath = 'C:/Users/eparr/Neumont/Quarter 9/Capstone/StaticServerCapstone/Static-Server/back-end/projects/Hot Serving/';
 coldPath = 'C:/Users/eparr/Neumont/Quarter 9/Capstone/StaticServerCapstone/Static-Server/back-end/projects/Cold Storage/';
+
 const mkdirSync = function (dirPath) {
     try {
         fs.mkdirSync(dirPath);

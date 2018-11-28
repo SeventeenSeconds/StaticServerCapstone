@@ -57,8 +57,18 @@ class AddProjectCard extends Component {
                 }
             });
 
+            //TODO: Add project to to projectLIST client side
+            // need to pass back project array to project state
+            // on project display page
+            // method on project page that sets the project state
+            // just like the register function passed back the array of usernames
+            // same with the projects - but set it from here
+
+
+            //TODO:
             // don't forget to clear the files list for new project
             // AND project title states, error messages, etc.
+
             this.handleClose();
         } else {
             this.setState({newProjectErrorMessage: "You must enter a project title."});
