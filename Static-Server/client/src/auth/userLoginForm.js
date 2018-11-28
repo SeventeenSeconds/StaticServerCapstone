@@ -27,7 +27,8 @@ class UserLoginForm extends Component {
                     email: this.state.emailValue,
                     password: this.state.passwordValue
                 }).then((response) => {
-                    this.props.setUserAuth();
+                    this.props.setUserAuth(true);
+                    this.props.setEmail(this.state.emailValue);
                     //TODO: get projects from return and pass as props to project page
 
                 }).catch((error) => {

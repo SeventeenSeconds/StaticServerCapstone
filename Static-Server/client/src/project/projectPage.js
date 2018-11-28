@@ -145,7 +145,7 @@ class MainLandingPage extends Component {
 
             <div>
                 <table style={this.styles.table}>
-                    <AddProjectCard />
+                    <AddProjectCard userEmail={this.props.userEmail}/>
                     <tr>
                         <td>
                             <List>

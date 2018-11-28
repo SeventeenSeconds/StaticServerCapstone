@@ -11,11 +11,16 @@ import './App.css';
 class App extends Component {
     constructor(props) {
         super(props);
-        this.state = {userAuthenticated: true, loginMode: true};
+        this.state = {
+            userAuthenticated: true,
+            loginMode: true,
+            userEmail: ""
+        };
 
         this.switchSubmit = this.switchSubmit.bind(this);
         this.setUserAuthenticatedState = this.setUserAuthenticatedState.bind(this);
         this.logout = this.logout.bind(this);
+        this.setEmail = this.setEmail.bind(this);
     }
 
     switchSubmit(event) {
@@ -31,29 +36,32 @@ class App extends Component {
         }
     }
 
-    logout = () => {
-        console.log("Logout has been pressed.");
-        this.setState({userAuthenticated: false});
+    setEmail = email => {
+        this.setState({userEmail: email});
     }
 
-    setUserAuthenticatedState = () => {
-        this.setState({userAuthenticated: true});
+    logout = () => {
+        this.setState({userAuthenticated: false, loginMode: true, userEmail: ""});
+    }
+
+    setUserAuthenticatedState = value => {
+        this.setState({userAuthenticated: value});
     }
 
     render() {
         // state - user is logged in - change view to projects
         let page, submitOption;
         if (this.state.userAuthenticated) {
-            page = <ProjectPage/>;
+            page = <ProjectPage userEmail={this.state.userEmail}/>;
             submitOption = "Logout";
             // need to get an add project bar?
         } else {
             if (this.state.loginMode) {
                 submitOption = "New user? Register!";
-                page = <UserLoginForm setUserAuth={this.setUserAuthenticatedState}/>;
+                page = <UserLoginForm setEmail={u => this.setEmail(u)} setUserAuth={state => this.setUserAuthenticatedState(state)}/>;
             } else {
                 submitOption = "Already a user? Login!";
-                page = <UserRegisterForm setUserAuth={this.setUserAuthenticatedState}/>;
+                page = <UserRegisterForm setEmail={u => this.setEmail(u)} setUserAuth={state => this.setUserAuthenticatedState(state)}/>;
             }
 
         }
@@ -65,7 +73,6 @@ class App extends Component {
                 <AppBar postition="static">
                     <Toolbar>
                         <Button onClick={this.switchSubmit}>{submitOption}</Button>
-
                     </Toolbar>
                 </AppBar>
                 <div class="form-holder">

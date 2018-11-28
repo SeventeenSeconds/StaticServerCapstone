@@ -3,7 +3,7 @@ const path = require('path');
 
 //TODO: Change after downloading project on pi
 hotPath = 'C:/Users/eparr/Neumont/Quarter 9/Capstone/StaticServerCapstone/Static-Server/back-end/projects/Hot Serving/';
-coldPath = 'C:/Users/eparr/Neumont/Quarter 9/Capstone/StaticServerCapstone/Static-Server/back-end/projects/Cold Serving/';
+coldPath = 'C:/Users/eparr/Neumont/Quarter 9/Capstone/StaticServerCapstone/Static-Server/back-end/projects/Cold Storage/';
 const mkdirSync = function (dirPath) {
     try {
         fs.mkdirSync(dirPath);
@@ -19,12 +19,12 @@ const mkdirpSync = function (dirPath) {
     }
 };
 
-exports.createProjectDirectories = function (username, projectTitle) {
-    mkdirpSync(path.resolve(coldPath + username + "/" + projectTitle));
-    mkdirpSync(path.resolve(hotPath + username + "/" + projectTitle));
+exports.createProjectDirectories = function (userEmail, projectTitle) {
+    mkdirpSync(path.resolve(coldPath + userEmail + "/" + projectTitle));
+    mkdirpSync(path.resolve(hotPath + userEmail + "/" + projectTitle));
 };
 
-exports.createUserDirectories = function (username) {
-    mkdirpSync(path.resolve(coldPath + username));
-    mkdirpSync(path.resolve(hotPath + username));
+exports.createUserDirectories = function (userEmail) {
+    mkdirpSync(path.resolve(coldPath + userEmail));
+    mkdirpSync(path.resolve(hotPath + userEmail));
 };

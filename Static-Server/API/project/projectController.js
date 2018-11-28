@@ -3,10 +3,11 @@ const dirUtil = require('../createDirectory');
 exports.uploadProject = function (req, res, next) {
     if (req.body) {
         var projectTitle = req.body.projectTitle;
+        var userEmail = req.body.userEmail;
         console.log(projectTitle);
         if (req.files) {
-            console.log("Attempting to create directory");
-            dirUtil.createProjectDirectories(username, projectTitle);
+            console.log("Attempting to create project directory " +  userEmail);
+            dirUtil.createProjectDirectories(userEmail, projectTitle);
 
             //TODO: save project title to db
 

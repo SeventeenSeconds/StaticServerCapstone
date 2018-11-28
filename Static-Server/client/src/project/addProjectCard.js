@@ -44,13 +44,12 @@ class AddProjectCard extends Component {
         if (this.state.validProjectTitle && addProjectFiles.length !== 0) {
 
             const data = new FormData();
+            data.append('userEmail', this.props.userEmail);
             data.append('projectTitle', this.state.newProjectTitle);
 
             addProjectFiles.forEach(file => {
                 data.append('files', file);
             });
-
-            console.log("Project name: " + this.state.newProjectTitle);
 
             axios.post('/project/uploadProject', data, {
                 headers: {
@@ -67,14 +66,7 @@ class AddProjectCard extends Component {
     }
 
     onDrop = (acceptedFiles, rejectedFiles) => {
-        // make this for multiple at some point
-        // just add the files to a list - maybe display the list if i have time
-        // also create project folder to save on the backend
-
-        console.log(acceptedFiles);
-
-        console.log();
-
+        // maybe upload a list to show the user what files they've added
         acceptedFiles.forEach(file => {
             addProjectFiles.push(file);
         });

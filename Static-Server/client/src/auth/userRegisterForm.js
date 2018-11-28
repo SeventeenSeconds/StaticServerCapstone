@@ -56,6 +56,7 @@ class UserRegisterForm extends Component {
             }).then((response) => {
                 console.log(response);
                 this.props.setUserAuth(true);
+                this.props.setEmail(this.state.emailValue);
             }).catch((error) => {
                 console.log(error);
                 this.setState({usernameErrorMessage: "Your account could not be registered"});
