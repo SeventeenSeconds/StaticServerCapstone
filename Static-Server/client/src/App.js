@@ -12,7 +12,7 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            userAuthenticated: true,
+            userAuthenticated: false,
             loginMode: true,
             userEmail: "",
             userProjects: []
@@ -39,7 +39,16 @@ class App extends Component {
     }
 
     setUserProjects = projects => {
+        console.log("Trying to set user projects " + projects);
+        projects.forEach(project => {
+            console.log(project);
+        });
+        // this.state.userProjects = projects;
         this.setState({userProjects: projects});
+        this.state.userProjects.forEach(project => {
+            console.log("Fuck " + project);
+        });
+        // this.setState({userProjects: [...this.state.userProjects, projects]});
     }
 
     setEmail = email => {
@@ -58,7 +67,7 @@ class App extends Component {
         // state - user is logged in - change view to projects
         let page, submitOption;
         if (this.state.userAuthenticated) {
-            page = <ProjectPage userEmail={this.state.userEmail} userProjects={this.state.userProjects}/>;
+            page = <ProjectPage userEmail={this.state.userEmail} userProjects={this.state.userProjects} setProjects={p => this.setUserProjects(p)}/>;
             submitOption = "Logout";
             // need to get an add project bar?
         } else {

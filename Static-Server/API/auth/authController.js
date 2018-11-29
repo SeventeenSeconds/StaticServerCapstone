@@ -34,13 +34,9 @@ exports.loginMode = function (req, res) {
             console.log("User found!");
             //TODO: need to decrypt the password coming out
             if (user.password == params.password) {
-                // set session
-                //TODO: return projects object back to client
-                var projects = projectController.getUserProjects(params.email);
                 return res.status(200).json({
                     'success': true,
-                    'user': user,
-                    'projects': projects
+                    'user': user
                 });
             } else {
                 return res.status(409).json({
@@ -105,7 +101,7 @@ exports.getUsernames = function (req, res) {
             });
         }
 
-    })
+    });
 };
 
 

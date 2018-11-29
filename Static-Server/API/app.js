@@ -28,9 +28,6 @@ var store = new MongoDBStore({
     collection: 'sessions'
 });
 
-
-app.use(express.static(path.join(__dirname, 'Static Website')));
-
 // var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
@@ -66,5 +63,10 @@ app.use("/project", project);
 
 const serve = require('./serve/servingRouter');
 app.use("/serve", serve);
+
+var p = 'C:/Users/eparr/Neumont/Quarter 9/Capstone/StaticServerCapstone/Static-Server/back-end/projects/Hot Serving/';
+// express.static('C:/Users/eparr/Neumont/Quarter 9/Capstone/StaticServerCapstone/Static-Server/back-end/projects/Hot Serving');
+
+app.use(express.static(path.join(p, 'test@gmail.com')));
 
 module.exports = app;

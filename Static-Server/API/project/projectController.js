@@ -11,7 +11,6 @@ exports.uploadProject = function (req, res, next) {
             var query = User.where({"email": userEmail});
             query.findOne(function (err, user) {
                 if (err) {
-                    console.log("Find one");
                     console.log(err);
                     return res.status(500).json({
                         'success': false,
@@ -28,6 +27,11 @@ exports.uploadProject = function (req, res, next) {
                                 'success': false,
                                 'message': "Project could not be added to the database."
                             });
+                        } else {
+                            return res.status(200).json({
+                                'success': true,
+                                'projects': user.projects
+                            });
                         }
                     });
                 }
@@ -37,25 +41,6 @@ exports.uploadProject = function (req, res, next) {
         } else {
             console.log('No File Uploaded');
         }
-
-
-        var query = User.where({"email": userEmail});
-        query.findOne(function (err, user) {
-            if (err) {
-                console.log(err);
-            }
-
-            if (user !== null) {
-                var projects = [];
-                user.projects.forEach(function (project) {
-                    projects.push(project);
-                });
-                return res.status(200).json({
-                    'success': true,
-                    'projects': projects
-                });
-            }
-        });
     }
 };
 
@@ -68,11 +53,13 @@ exports.getUserProjects = function (userEmail) {
         }
 
         if (user !== null) {
-            user.projects.forEach(function (project) {
-                projects.push(project);
+            console.log('here');
+            projects.push(user.projects);
+            user.projects.forEach(project => {
+                console.log("project " + project);
+                projects.push()
             });
-            return projects
+            return projects;
         }
     });
-    ;
 };

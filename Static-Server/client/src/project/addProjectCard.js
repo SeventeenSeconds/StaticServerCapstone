@@ -31,7 +31,8 @@ class AddProjectCard extends Component {
         this.setProjectName = this.setProjectName.bind(this);
     }
 
-    uploadProject = async () => {
+    uploadProject = async event => {
+        event.preventDefault();
 
         if (this.state.validProjectTitle && addProjectFiles.length !== 0) {
 
@@ -48,21 +49,11 @@ class AddProjectCard extends Component {
                     'Content-Type': 'multipart/form-data'
                 }
             }).then((response) => {
-                console.log(response.data.projects);
-                // update project page with state
                 this.props.setProjects(response.data.projects);
 
             }).catch((error) => {
                 console.log(error);
             });
-
-            //TODO: Add project to to projectLIST client side
-            // need to pass back project array to project state
-            // on project display page
-            // method on project page that sets the project state
-            // just like the register function passed back the array of usernames
-            // same with the projects - but set it from here
-            //TODO: set new project array state for display
 
 
             this.setState({newProjectTitle: "", validProjectTitle: false});
