@@ -67,6 +67,6 @@ app.use("/serve", serve);
 var p = 'C:/Users/eparr/Neumont/Quarter 9/Capstone/StaticServerCapstone/Static-Server/back-end/projects/Hot Serving/';
 // express.static('C:/Users/eparr/Neumont/Quarter 9/Capstone/StaticServerCapstone/Static-Server/back-end/projects/Hot Serving');
 
-app.use(express.static(path.join(p, 'test@gmail.com')));
+app.use(express.static(p));
 
 module.exports = app;
