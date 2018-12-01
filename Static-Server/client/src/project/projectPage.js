@@ -12,7 +12,6 @@ class MainLandingPage extends Component {
             currentProject: "",
             servingCurrentProject: "",
             backgroundColor: "",
-            projects: props.userProjects,
             file: ""
         };
 
@@ -95,7 +94,7 @@ class MainLandingPage extends Component {
 
             <div>
                 <table style={this.styles.table}>
-                    <AddProjectCard userEmail={this.props.userEmail} setProjects={p => this.updateProjects(p)}/>
+                    <AddProjectCard userEmail={this.props.userEmail} setProjects={p => this.updateProjects(p)} userProjects={this.props.userProjects}/>
                     <tr>
                         <td>
                             <List>

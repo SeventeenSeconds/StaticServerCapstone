@@ -20,7 +20,6 @@ class AddProjectCard extends Component {
             currentProject: "",
             servingCurrentProject: "",
             backgroundColor: "",
-            projects: [],
             newProjectTitle: "",
             newProjectErrorMessage: "",
             validProjectTitle: false,
@@ -34,31 +33,34 @@ class AddProjectCard extends Component {
     uploadProject = async event => {
         event.preventDefault();
 
-        if (this.state.validProjectTitle && addProjectFiles.length !== 0) {
+        if (this.state.validProjectTitle) {
+            if (addProjectFiles.length !== 0) {
 
-            const data = new FormData();
-            data.append('userEmail', this.props.userEmail);
-            data.append('projectTitle', this.state.newProjectTitle);
+                const data = new FormData();
+                data.append('userEmail', this.props.userEmail);
+                data.append('projectTitle', this.state.newProjectTitle);
 
-            addProjectFiles.forEach(file => {
-                data.append('files', file);
-            });
+                addProjectFiles.forEach(file => {
+                    data.append('files', file);
+                });
 
-            axios.post('/project/uploadProject', data, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            }).then((response) => {
-                this.props.setProjects(response.data.projects);
+                axios.post('/project/uploadProject', data, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                }).then((response) => {
+                    this.props.setProjects(response.data.projects);
 
-            }).catch((error) => {
-                console.log(error);
-            });
+                }).catch((error) => {
+                    console.log(error);
+                });
 
 
-            this.setState({newProjectTitle: "", validProjectTitle: false});
-            addProjectFiles = [];
-            this.handleClose();
+                this.setState({newProjectTitle: "", validProjectTitle: false, newProjectErrorMessage: ""});
+                this.handleClose();
+            } else {
+                this.setState({newProjectErrorMessage: "You must add project file/s."});
+            }
         } else {
             this.setState({newProjectErrorMessage: "You must enter a project title."});
         }
@@ -80,11 +82,20 @@ class AddProjectCard extends Component {
     };
 
     setProjectName = value => {
+        //TODO: adding validation for card so they can't name the same project
         let val = value.currentTarget.value.trim();
-        if (val !== null && val !== "") {
-            this.setState({newProjectTitle: value.currentTarget.value, validProjectTitle: true, newProjectErrorMessage: ""});
+        if (this.props.userProjects.indexOf(val) > -1) {
+            this.setState({newProjectErrorMessage: "Project title already exists.", validProjectTitle: false});
         } else {
-            this.setState({newProjectErrorMessage: "You must enter a project title.", validProjectTitle: false});
+            if (val !== null && val !== "") {
+                this.setState({
+                    newProjectTitle: value.currentTarget.value,
+                    validProjectTitle: true,
+                    newProjectErrorMessage: ""
+                });
+            } else {
+                this.setState({newProjectErrorMessage: "You must enter a project title.", validProjectTitle: false});
+            }
         }
     }
 
