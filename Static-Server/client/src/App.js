@@ -12,7 +12,7 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            userAuthenticated: false,
+            userAuthenticated: true,
             loginMode: true,
             userEmail: "",
             userProjects: []
@@ -39,16 +39,10 @@ class App extends Component {
     }
 
     setUserProjects = projects => {
-        console.log("Trying to set user projects " + projects);
         projects.forEach(project => {
             console.log(project);
         });
-        // this.state.userProjects = projects;
         this.setState({userProjects: projects});
-        this.state.userProjects.forEach(project => {
-            console.log("Fuck " + project);
-        });
-        // this.setState({userProjects: [...this.state.userProjects, projects]});
     }
 
     setEmail = email => {
@@ -56,7 +50,7 @@ class App extends Component {
     }
 
     logout = () => {
-        this.setState({userAuthenticated: false, loginMode: true, userEmail: ""});
+        this.setState({userAuthenticated: false, loginMode: true, userEmail: "", userProjects: []});
     }
 
     setUserAuthenticatedState = value => {

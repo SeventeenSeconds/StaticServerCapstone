@@ -80,6 +80,7 @@ class UserLoginForm extends Component {
                     <tr>
                         <TextField
                             required
+                            type="password"
                             label="Password"
                             margin="normal"
                             onChange={this.setPassword}

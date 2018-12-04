@@ -1,9 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-//TODO: Change after downloading project on pi
 hotPath = 'C:/Users/eparr/Neumont/Quarter 9/Capstone/StaticServerCapstone/Static-Server/back-end/projects/Hot Serving/';
-coldPath = 'C:/Users/eparr/Neumont/Quarter 9/Capstone/StaticServerCapstone/Static-Server/back-end/projects/Cold Storage/';
 
 const mkdirSync = function (dirPath) {
     try {
@@ -21,11 +19,9 @@ const mkdirpSync = function (dirPath) {
 };
 
 exports.createProjectDirectories = function (userEmail, projectTitle) {
-    mkdirpSync(path.resolve(coldPath + userEmail + "/" + projectTitle));
     mkdirpSync(path.resolve(hotPath + userEmail + "/" + projectTitle));
 };
 
 exports.createUserDirectories = function (userEmail) {
-    mkdirpSync(path.resolve(coldPath + userEmail));
     mkdirpSync(path.resolve(hotPath + userEmail));
 };

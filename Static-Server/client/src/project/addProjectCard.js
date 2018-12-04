@@ -8,8 +8,8 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import axios from 'axios';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Dropzone from 'react-dropzone';
-
-let addProjectFiles = [];
+import AddIcon from '@material-ui/icons/Add';
+import FileList from './fileList';
 
 class AddProjectCard extends Component {
     constructor(props) {
@@ -23,24 +23,26 @@ class AddProjectCard extends Component {
             newProjectTitle: "",
             newProjectErrorMessage: "",
             validProjectTitle: false,
+            projectFiles: [],
         };
 
         this.onDrop = this.onDrop.bind(this);
         this.uploadProject = this.uploadProject.bind(this);
         this.setProjectName = this.setProjectName.bind(this);
+        this.handleClear = this.handleClear.bind(this);
     }
 
     uploadProject = async event => {
         event.preventDefault();
 
         if (this.state.validProjectTitle) {
-            if (addProjectFiles.length !== 0) {
+            if (this.state.projectFiles.length !== 0) {
 
                 const data = new FormData();
                 data.append('userEmail', this.props.userEmail);
                 data.append('projectTitle', this.state.newProjectTitle);
 
-                addProjectFiles.forEach(file => {
+                this.state.projectFiles.forEach(file => {
                     data.append('files', file);
                 });
 
@@ -68,9 +70,13 @@ class AddProjectCard extends Component {
 
     onDrop = (acceptedFiles, rejectedFiles) => {
         // maybe upload a list to show the user what files they've added
+        var files = this.state.projectFiles;
+
         acceptedFiles.forEach(file => {
-            addProjectFiles.push(file);
+            files.push(file.name);
         });
+        this.setState({projectFiles: files});
+        console.log("project file added");
     }
 
     handleClickOpen = scroll => () => {
@@ -81,8 +87,11 @@ class AddProjectCard extends Component {
         this.setState({open: false});
     };
 
+    handleClear = () => {
+        this.setState({projectFiles: []});
+    }
+
     setProjectName = value => {
-        //TODO: adding validation for card so they can't name the same project
         let val = value.currentTarget.value.trim();
         if (this.props.userProjects.indexOf(val) > -1) {
             this.setState({newProjectErrorMessage: "Project title already exists.", validProjectTitle: false});
@@ -102,14 +111,13 @@ class AddProjectCard extends Component {
     render() {
         return (
             <div>
-                <Button onClick={this.handleClickOpen('paper')}>Add Project</Button>
+                <Button onClick={this.handleClickOpen('paper')}><AddIcon/>Add Project</Button>
                 <Dialog
                     open={this.state.open}
                     onClose={this.handleClose}
                     scroll={this.state.scroll}
-                    aria-labelledby="scroll-dialog-title"
                 >
-                    <DialogTitle id="scroll-dialog-title">Add Project</DialogTitle>
+                    <DialogTitle>Add Project</DialogTitle>
                     <DialogContent>
                         <DialogContentText>
                             <TextField
@@ -120,12 +128,15 @@ class AddProjectCard extends Component {
                                 helperText={this.state.newProjectErrorMessage}
                             />
                         </DialogContentText>
-                        <div>
-                            <Dropzone
-                                onDrop={(accepted, rejected) => {
-                                    this.onDrop(accepted, rejected)
-                                }}/>
-                        </div>
+
+                        <Dropzone
+                            onDrop={(accepted, rejected) => {
+                                this.onDrop(accepted, rejected)
+                            }}/>
+                        <FileList projectFiles={this.state.projectFiles}/>
+                        <Button onClick={this.handleClear} color="primary">
+                            Clear Files
+                        </Button>
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={this.handleClose} color="primary">
