@@ -24,12 +24,19 @@ class AddProjectCard extends Component {
             newProjectErrorMessage: "",
             validProjectTitle: false,
             projectFiles: [],
+            index: "",
         };
 
         this.onDrop = this.onDrop.bind(this);
         this.uploadProject = this.uploadProject.bind(this);
         this.setProjectName = this.setProjectName.bind(this);
         this.handleClear = this.handleClear.bind(this);
+        this.setIndexFile = this.setIndexFile.bind(this);
+    }
+
+    setIndexFile = file => {
+        this.setState({index: file});
+        console.log("Index set to " + file);
     }
 
     uploadProject = async event => {
@@ -133,7 +140,7 @@ class AddProjectCard extends Component {
                             onDrop={(accepted, rejected) => {
                                 this.onDrop(accepted, rejected)
                             }}/>
-                        <FileList projectFiles={this.state.projectFiles}/>
+                        <FileList projectFiles={this.state.projectFiles} setIndex={i => this.setIndexFile(i)}/>
                         <Button onClick={this.handleClear} color="primary">
                             Clear Files
                         </Button>
