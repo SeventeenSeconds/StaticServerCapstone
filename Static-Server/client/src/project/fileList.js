@@ -2,7 +2,9 @@ import React from 'react';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import Checkbox from '@material-ui/core/Checkbox';;
+import Checkbox from '@material-ui/core/Checkbox';
+
+;
 
 class FileList extends React.Component {
     constructor(props) {
@@ -13,7 +15,7 @@ class FileList extends React.Component {
     }
 
     handleToggle = value => () => {
-        const { checked } = this.state;
+        const {checked} = this.state;
         const currentIndex = checked.indexOf(value);
         const newChecked = [];
 
@@ -28,7 +30,12 @@ class FileList extends React.Component {
         this.setState({
             checked: newChecked,
         });
-        this.props.setIndex(value);
+
+        if (checked.length === 0) {
+            this.props.setIndex("");
+        } else {
+            this.props.setIndex(value);
+        }
     };
 
     render() {
@@ -43,7 +50,7 @@ class FileList extends React.Component {
                             tabIndex={-1}
                             disableRipple
                         />
-                        <ListItemText primary={value} />
+                        <ListItemText primary={value}/>
                     </ListItem>
                 ))}
             </List>

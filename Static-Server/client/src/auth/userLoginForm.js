@@ -34,10 +34,6 @@ class UserLoginForm extends Component {
                         p.push(project);
                     });
                     this.props.setProjects(p);
-                    // this.props.setProjects(response.data.user.projects);
-                    //TODO: get projects from return and pass as props to project page
-                    // this.props.setProjects(response.projects);
-                    console.log(response.data.user.projects);
                 }).catch((error) => {
                     console.log(error);
                     this.setState({

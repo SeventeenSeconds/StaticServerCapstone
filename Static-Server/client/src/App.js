@@ -12,10 +12,11 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            userAuthenticated: true,
+            userAuthenticated: false,
             loginMode: true,
             userEmail: "",
-            userProjects: []
+            userProjects: [],
+
         };
 
         this.switchSubmit = this.switchSubmit.bind(this);

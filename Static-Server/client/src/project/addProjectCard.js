@@ -44,29 +44,34 @@ class AddProjectCard extends Component {
 
         if (this.state.validProjectTitle) {
             if (this.state.projectFiles.length !== 0) {
+                if (this.state.index !== "") {
 
-                const data = new FormData();
-                data.append('userEmail', this.props.userEmail);
-                data.append('projectTitle', this.state.newProjectTitle);
+                    const data = new FormData();
+                    data.append('userEmail', this.props.userEmail);
+                    data.append('projectTitle', this.state.newProjectTitle);
+                    data.append('index', this.state.index);
 
-                this.state.projectFiles.forEach(file => {
-                    data.append('files', file);
-                });
+                    this.state.projectFiles.forEach(file => {
+                        data.append('files', file);
+                    });
 
-                axios.post('/project/uploadProject', data, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    }
-                }).then((response) => {
-                    this.props.setProjects(response.data.projects);
+                    axios.post('/project/uploadProject', data, {
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        }
+                    }).then((response) => {
+                        this.props.setProjects(response.data.projects);
 
-                }).catch((error) => {
-                    console.log(error);
-                });
+                    }).catch((error) => {
+                        console.log(error);
+                    });
 
 
-                this.setState({newProjectTitle: "", validProjectTitle: false, newProjectErrorMessage: ""});
-                this.handleClose();
+                    this.setState({newProjectTitle: "", validProjectTitle: false, newProjectErrorMessage: "", index: "", projectFiles: []});
+                    this.handleClose();
+                } else {
+                    this.setState({newProjectErrorMessage: "You must select and index file."});
+                }
             } else {
                 this.setState({newProjectErrorMessage: "You must add project file/s."});
             }
@@ -95,7 +100,7 @@ class AddProjectCard extends Component {
     };
 
     handleClear = () => {
-        this.setState({projectFiles: []});
+        this.setState({projectFiles: [], index: ""});
     }
 
     setProjectName = value => {

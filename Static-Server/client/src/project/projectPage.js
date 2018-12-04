@@ -54,10 +54,9 @@ class MainLandingPage extends Component {
         // reload project list again because project will be deleted
     }
 
-    setCurrentProject = (project, listItem) => {
+    setCurrentProject = (project) => {
         this.setState({currentProject: project});
     }
-
 
     render() {
 
@@ -70,15 +69,12 @@ class MainLandingPage extends Component {
                         <td>
                             <List>
                                 {this.props.userProjects.map(function (project) {
-                                    return <ListItem button
+                                    return <ListItem key={project.projectTitle} button
                                                      onClick={() => this.setCurrentProject(project)}
-                                    >{project}</ListItem>
+                                    >{project.projectTitle}</ListItem>
                                 }, this)}
                             </List>
 
-                        </td>
-                        <td>
-                            <label>Current Project: {this.state.currentProject}</label>
                         </td>
                         <td>
                             <tr>
