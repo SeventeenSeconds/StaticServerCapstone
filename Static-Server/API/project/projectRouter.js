@@ -22,10 +22,8 @@ const diskUpload = multer.diskStorage({
 });
 const upload = multer({storage: diskUpload});
 
-
-
 router.post("/uploadProject", upload.any(), projectController.uploadProject);
 
-
+router.post('/deleteProject', projectController.deleteProject);
 
 module.exports = router;

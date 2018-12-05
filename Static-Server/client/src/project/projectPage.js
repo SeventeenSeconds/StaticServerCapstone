@@ -1,9 +1,8 @@
 import React, {Component} from 'react';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import Button from '@material-ui/core/Button';
+import ProjectCard from './projectCard';
 import AddProjectCard from './addProjectCard';
-import DeleteIcon from '@material-ui/icons/Delete';
 import axios from 'axios';
 
 class MainLandingPage extends Component {
@@ -54,8 +53,9 @@ class MainLandingPage extends Component {
         // reload project list again because project will be deleted
     }
 
-    setCurrentProject = (project) => {
-        this.setState({currentProject: project});
+    openProject = (project) => {
+        // this.setState({currentProject: project});
+
     }
 
     render() {
@@ -69,9 +69,7 @@ class MainLandingPage extends Component {
                         <td>
                             <List>
                                 {this.props.userProjects.map(function (project) {
-                                    return <ListItem key={project.projectTitle} button
-                                                     onClick={() => this.setCurrentProject(project)}
-                                    >{project.projectTitle}</ListItem>
+                                    return <ProjectCard setProjects={p => this.updateProjects(p)} userEmail={this.props.userEmail} projectTitle={project.projectTitle} projectIndex={project.index}/>
                                 }, this)}
                             </List>
 
@@ -79,10 +77,7 @@ class MainLandingPage extends Component {
                         <td>
                             <tr>
                                 <td>
-                                    <Button type="button" onClick={this.deleteProject}>
-                                        <DeleteIcon/>
-                                        Delete Project
-                                    </Button>
+
                                 </td>
                             </tr>
                         </td>
