@@ -67,7 +67,7 @@ exports.register = function (req, res) {
             });
         }
 
-        dirUtil.createUserDirectories(params.username);
+        dirUtil.createUserDirectories(params.email);
 
         return res.status(200).json({
             'success': true

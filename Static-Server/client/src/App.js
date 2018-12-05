@@ -56,7 +56,7 @@ class App extends Component {
     }
 
     logout = () => {
-        this.setState({userAuthenticated: false, loginMode: true, userEmail: ""});
+        this.setState({userAuthenticated: false, loginMode: true, userEmail: "", userProjects: []});
     }
 
     setUserAuthenticatedState = value => {

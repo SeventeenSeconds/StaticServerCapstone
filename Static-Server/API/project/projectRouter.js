@@ -6,7 +6,7 @@ const dirUtil = require('../createDirectory');
 
 //TODO: I need to set this up for multiple files as well as change path name to appropriate
 //TODO: user project folder depending on hosting or not
-var path = 'C:/Users/eparr/Neumont/Quarter 9/Capstone/StaticServerCapstone/Static-Server/back-end/projects/Hot Serving/';
+var path = '/home/pi/Capstone/StaticServerCapstone/Static-Server/back-end/projects/Hot Serving/';
 const multer = require('multer');
 const diskUpload = multer.diskStorage({
     destination: (req, file, cb) => {
