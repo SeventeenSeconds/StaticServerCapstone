@@ -80,21 +80,22 @@ class UserRegisterForm extends Component {
     }
 
     validatePassword = value => {
-        this.setState({passwordValue: value.currentTarget.value});
+        value = value.currentTarget.value.trim();
+        this.setState({passwordValue: value});
 
-        if (value.currentTarget.value === "") {
+        if (value === "") {
             this.setState({validPassword: false, passwordErrorMessage: "You must enter a password"});
-        } else if (value.currentTarget.value !== this.state.confirmPasswordValue) {
-            this.setState({validPassword: false, confirmPasswordErrorMessage: "Your passwords do not match"});
+        } else if (value !== this.state.confirmPasswordValue) {
+            this.setState({validPassword: false, confirmPasswordErrorMessage: "Your passwords do not match", passwordErrorMessage: ""});
         } else {
             this.setState({validPassword: true, confirmPasswordErrorMessage: ""});
         }
     }
 
     confirmPassword = value => {
-        this.setState({confirmPasswordValue: value.currentTarget.value});
-
-        if (value.currentTarget.value === this.state.passwordValue) {
+        value = value.currentTarget.value.trim();
+        this.setState({confirmPasswordValue: value});
+        if (value === this.state.passwordValue) {
             this.setState({validPassword: true, confirmPasswordErrorMessage: ""});
         } else {
             this.setState({validPassword: false, confirmPasswordErrorMessage: "Your passwords do not match"});
@@ -136,6 +137,7 @@ class UserRegisterForm extends Component {
                         <TextField
                             required
                             label="Password"
+                            type="password"
                             helperText={this.state.passwordErrorMessage}
                             placeholder="Password"
                             margin="normal"
@@ -147,6 +149,7 @@ class UserRegisterForm extends Component {
                         <TextField
                             required
                             label="Confirm Password"
+                            type="password"
                             helperText={this.state.confirmPasswordErrorMessage}
                             placeholder="Confirm Password"
                             margin="normal"
