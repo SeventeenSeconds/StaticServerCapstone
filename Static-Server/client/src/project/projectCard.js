@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import axios from 'axios';
 import DialogTitle from '@material-ui/core/DialogTitle';
@@ -34,9 +35,9 @@ class ProjectCard extends Component {
     }
 
     openProject = () => {
-        // new tab
-
-    }
+        window.open('http://staticfileserver.zapto.org/serve/' + this.props.userEmail + '/' + this.props.projectTitle + '/' + this.props.projectIndex);
+        // window.open('/serve/' + this.props.userEmail + '/' + this.props.projectTitle + '/' + this.props.projectIndex);
+    };
 
     handleClickOpen = scroll => () => {
         this.setState({open: true, scroll});
@@ -56,12 +57,15 @@ class ProjectCard extends Component {
                     scroll={this.state.scroll}
                 >
                     <DialogTitle>{this.props.projectTitle}</DialogTitle>
+                    <DialogContent>
+                        Project Address:
+                        <br />
+                        <a onClick={this.openProject} style={{cursor: 'pointer'}}>staticfileserver.zapto.org/serve/{this.props.userEmail}/{this.props.projectTitle}/{this.props.projectIndex}</a>
+                            {/*staticfileserver.zapto.org/serve/{this.props.userEmail}/{this.props.projectTitle}/{this.props.projectIndex}*/}
+                    </DialogContent>
                     <DialogActions>
                         <Button onClick={this.handleClose} color="primary">
                             Exit
-                        </Button>
-                        <Button onClick={this.openProject} color="primary">
-                            Open Project
                         </Button>
                         <Button type="button" onClick={this.deleteProject}>
                             <DeleteIcon/>
