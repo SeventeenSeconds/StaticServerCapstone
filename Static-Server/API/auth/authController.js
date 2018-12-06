@@ -14,8 +14,6 @@ decrypt = password => {
     return plaintext;
 }
 
-var pass = encriptPassword('fake value');
-
 // LOGIN FUNCTION
 exports.loginMode = function (req, res) {
 
@@ -32,8 +30,10 @@ exports.loginMode = function (req, res) {
         }
         if (user !== null) {
             console.log("User found!");
-            //TODO: need to decrypt the password coming out
-            if (user.password == params.password) {
+            var bytes = crypto.AES.decrypt(user.password.toString(), 'bikes 666');
+            var decriptedPassword = bytes.toString(crypto.enc.Utf8);
+            console.log(decriptedPassword);
+            if (decriptedPassword === params.password) {
                 return res.status(200).json({
                     'success': true,
                     'user': user
@@ -58,7 +58,8 @@ exports.register = function (req, res) {
     var params = req.body;
     console.log("trying to register " + params.username);
 
-    var newUser = new User({email: params.email, password: params.password, username: params.username});
+    var encriptedPassword = crypto.AES.encrypt(params.password, 'bikes 666');
+    var newUser = new User({email: params.email, password: encriptedPassword.toString(), username: params.username});
     newUser.save(function (err) {
         if (err) {
             return res.status(500).json({

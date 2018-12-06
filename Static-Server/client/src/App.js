@@ -15,7 +15,8 @@ class App extends Component {
             userAuthenticated: false,
             loginMode: true,
             userEmail: "",
-            userProjects: []
+            userProjects: [],
+
         };
 
         this.switchSubmit = this.switchSubmit.bind(this);
@@ -39,16 +40,10 @@ class App extends Component {
     }
 
     setUserProjects = projects => {
-        console.log("Trying to set user projects " + projects);
         projects.forEach(project => {
             console.log(project);
         });
-        // this.state.userProjects = projects;
         this.setState({userProjects: projects});
-        this.state.userProjects.forEach(project => {
-            console.log("Fuck " + project);
-        });
-        // this.setState({userProjects: [...this.state.userProjects, projects]});
     }
 
     setEmail = email => {
