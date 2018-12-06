@@ -47,10 +47,6 @@ store.on('error', function(error) {
     console.log(error);
 });
 
-app.get('/bullshit', function(req, res){
-    res.send("hello world");
-});
-
 /*
     routing paths
  */
@@ -61,11 +57,7 @@ app.use("/auth", auth);
 const project = require('./project/projectRouter');
 app.use("/project", project);
 
-const serve = require('./serve/servingRouter');
-app.use("/serve", serve);
-
-var p = 'C:/Users/eparr/Neumont/Quarter 9/Capstone/StaticServerCapstone/Static-Server/back-end/projects/Hot Serving/';
-// express.static('C:/Users/eparr/Neumont/Quarter 9/Capstone/StaticServerCapstone/Static-Server/back-end/projects/Hot Serving');
+var p = '/home/pi/Capstone/StaticServerCapstone/Static-Server/back-end/projects/Hot Serving/';
 
 app.use(express.static(p));
 

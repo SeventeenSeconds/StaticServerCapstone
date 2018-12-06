@@ -33,7 +33,7 @@ exports.loginMode = function (req, res) {
             var bytes = crypto.AES.decrypt(user.password.toString(), 'bikes 666');
             var decriptedPassword = bytes.toString(crypto.enc.Utf8);
             console.log(decriptedPassword);
-            if (decriptedPassword == params.password) {
+            if (decriptedPassword === params.password) {
                 return res.status(200).json({
                     'success': true,
                     'user': user

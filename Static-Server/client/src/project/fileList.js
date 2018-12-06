@@ -43,14 +43,14 @@ class FileList extends React.Component {
         return (
             <List>
                 Please select an "index" page.
-                {this.props.projectFiles.map(value => (
-                    <ListItem key={value} role={undefined} dense button onClick={this.handleToggle(value)}>
+                {this.props.projectFiles.map(file => (
+                    <ListItem key={file.name} role={undefined} dense button onClick={this.handleToggle(file.name)}>
                         <Checkbox
-                            checked={this.state.checked.indexOf(value) !== -1}
+                            checked={this.state.checked.indexOf(file.name) !== -1}
                             tabIndex={-1}
                             disableRipple
                         />
-                        <ListItemText primary={value}/>
+                        <ListItemText primary={file.name}/>
                     </ListItem>
                 ))}
             </List>

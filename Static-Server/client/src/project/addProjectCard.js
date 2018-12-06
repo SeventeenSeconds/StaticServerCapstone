@@ -52,6 +52,7 @@ class AddProjectCard extends Component {
                     data.append('index', this.state.index);
 
                     this.state.projectFiles.forEach(file => {
+			console.log("test " + file); 
                         data.append('files', file);
                     });
 
@@ -81,11 +82,10 @@ class AddProjectCard extends Component {
     }
 
     onDrop = (acceptedFiles, rejectedFiles) => {
-        // maybe upload a list to show the user what files they've added
         var files = this.state.projectFiles;
 
         acceptedFiles.forEach(file => {
-            files.push(file.name);
+            files.push(file);
         });
         this.setState({projectFiles: files});
         console.log("project file added");

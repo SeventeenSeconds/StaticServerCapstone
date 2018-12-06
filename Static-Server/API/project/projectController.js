@@ -1,5 +1,5 @@
-const dirUtil = require('../createDirectory');
 const User = require('../user/userModel');
+const dirUtil = require('../createDirectory'); 
 
 exports.uploadProject = function (req, res, next) {
     if (req.body) {
@@ -7,12 +7,12 @@ exports.uploadProject = function (req, res, next) {
         var userEmail = req.body.userEmail;
         var index = req.body.index;
         console.log(index);
-        if (req.files) {
+        if (req.files) { 
 
             var query = User.where({"email": userEmail});
             query.findOne(function (err, user) {
                 if (err) {
-                    console.log(err);
+                    console.log(err); b
                     return res.status(500).json({
                         'success': false,
                         'message': "Project could not be saved."
@@ -23,7 +23,6 @@ exports.uploadProject = function (req, res, next) {
                     user.projects.push(newProject);
                     user.save(function (err) {
                         if (err) {
-                            console.log("saving one");
                             console.log(err);
                             return res.status(500).json({
                                 'success': false,
@@ -66,6 +65,8 @@ exports.deleteProject = function (req, res) {
                     user.projects.splice(i, 1);
                 }
             }
+		var path = '/home/pi/Capstone/StaticServerCapstone/Static-Server/back-end/projects/Hot Serving/';
+		dirUtil.deleteDirectory(path + userEmail + '/' + projectTitle); 
             user.save(function (err) {
                 if (err) {
                     console.log(err);
@@ -74,6 +75,7 @@ exports.deleteProject = function (req, res) {
                         'message': "Project could not be added to the database."
                     });
                 } else {
+			
                     return res.status(200).json({
                         'success': true,
                         'projects': user.projects
