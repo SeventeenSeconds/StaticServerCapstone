@@ -116,6 +116,11 @@ class UserRegisterForm extends Component {
 
     }
 
+    style = {
+        color: 'black',
+        background: '#4ad1aa'
+    };
+
     render() {
 
 
@@ -170,7 +175,9 @@ class UserRegisterForm extends Component {
 
                     </tr>
                     <Button
-                        type="button" onClick={this.handleRegistration}>Register!
+                        style={this.style}
+                        type="button"
+                        onClick={this.handleRegistration}>Register!
                     </Button>
                 </table>
             </form>

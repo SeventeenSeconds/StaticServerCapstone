@@ -9,6 +9,7 @@ import axios from 'axios';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Dropzone from 'react-dropzone';
 import AddIcon from '@material-ui/icons/Add';
+import CloseIcon from '@material-ui/icons/Close';
 import FileList from './fileList';
 
 class AddProjectCard extends Component {
@@ -103,6 +104,22 @@ class AddProjectCard extends Component {
         this.setState({projectFiles: [], index: ""});
     }
 
+    style = {
+        button: {
+            color: 'black',
+            background: '#4ad1aa'
+        },
+        dialog: {
+            textAlign: 'center',
+        },
+        topCard: {
+            background: '#d6d7d9'
+        },
+        clear: {
+            color: 'red',
+        }
+    };
+
     setProjectName = value => {
         let val = value.currentTarget.value.trim();
         if (this.props.userProjects.indexOf(val) > -1) {
@@ -123,19 +140,20 @@ class AddProjectCard extends Component {
     render() {
         return (
             <div>
-                <Button onClick={this.handleClickOpen('paper')}><AddIcon/>Add Project</Button>
+                <Button style={this.style.button} onClick={this.handleClickOpen('paper')}><AddIcon/>Add Project</Button>
                 <Dialog
                     open={this.state.open}
                     onClose={this.handleClose}
                     scroll={this.state.scroll}
                 >
-                    <DialogTitle>Add Project</DialogTitle>
-                    <DialogContent>
+                    <DialogTitle style={this.style.topCard}>Add Project</DialogTitle>
+
+                    <DialogContent style={this.style.dialog}>
                         <DialogContentText>
                             <TextField
                                 required
                                 label="Project Title"
-                                margin="normal"
+                                // margin="normal"
                                 onChange={this.setProjectName}
                                 helperText={this.state.newProjectErrorMessage}
                             />
@@ -146,15 +164,18 @@ class AddProjectCard extends Component {
                                 this.onDrop(accepted, rejected)
                             }}/>
                         <FileList projectFiles={this.state.projectFiles} setIndex={i => this.setIndexFile(i)}/>
-                        <Button onClick={this.handleClear} color="primary">
+                        <Button
+                            style={this.style.clear}
+                            onClick={this.handleClear} color="primary">
+                            <CloseIcon/>
                             Clear Files
                         </Button>
                     </DialogContent>
                     <DialogActions>
-                        <Button onClick={this.handleClose} color="primary">
+                        <Button style={this.style.button} onClick={this.handleClose} color="primary">
                             Cancel
                         </Button>
-                        <Button onClick={this.uploadProject} color="primary">
+                        <Button style={this.style.button} onClick={this.uploadProject} color="primary">
                             Upload Project
                         </Button>
                     </DialogActions>

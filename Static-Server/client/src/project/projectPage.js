@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
+import Divider from '@material-ui/core/Divider';
 import ProjectCard from './projectCard';
 import AddProjectCard from './addProjectCard';
 import axios from 'axios';
@@ -30,7 +30,7 @@ class MainLandingPage extends Component {
         table: {
             height: '100%',
             width: '100%',
-            backgroundColor: '#ffffa0',
+            backgroundColor: '#d6d7d9',
         },
         tableRow: {
             align: 'center',
@@ -65,7 +65,9 @@ class MainLandingPage extends Component {
             <div>
                 <table style={this.styles.table}>
                     <AddProjectCard userEmail={this.props.userEmail} setProjects={p => this.updateProjects(p)} userProjects={this.props.userProjects}/>
+                    <Divider />
                     <tr>
+
                         <td>
                             <List>
                                 {this.props.userProjects.map(function (project) {
@@ -73,13 +75,6 @@ class MainLandingPage extends Component {
                                 }, this)}
                             </List>
 
-                        </td>
-                        <td>
-                            <tr>
-                                <td>
-
-                                </td>
-                            </tr>
                         </td>
                     </tr>
                 </table>

@@ -47,6 +47,22 @@ class ProjectCard extends Component {
         this.setState({open: false});
     };
 
+    style = {
+        button: {
+            color: 'black',
+            background: '#4ad1aa'
+        },
+        dialog: {
+            textAlign: 'center',
+        },
+        topCard: {
+            background: '#d6d7d9'
+        },
+        clear: {
+            color: 'red',
+        }
+    };
+
     render() {
         return (
             <div>
@@ -56,18 +72,23 @@ class ProjectCard extends Component {
                     onClose={this.handleClose}
                     scroll={this.state.scroll}
                 >
-                    <DialogTitle>{this.props.projectTitle}</DialogTitle>
+                    <DialogTitle style={this.style.topCard}>{this.props.projectTitle}</DialogTitle>
                     <DialogContent>
+                        <br/>
                         Project Address:
                         <br />
                         <a onClick={this.openProject} style={{cursor: 'pointer'}}>staticfileserver.zapto.org/serve/{this.props.userEmail}/{this.props.projectTitle}/{this.props.projectIndex}</a>
-                            {/*staticfileserver.zapto.org/serve/{this.props.userEmail}/{this.props.projectTitle}/{this.props.projectIndex}*/}
                     </DialogContent>
-                    <DialogActions>
-                        <Button onClick={this.handleClose} color="primary">
+                    <DialogActions style={this.style.dialog}>
+                        <Button
+                            onClick={this.handleClose}
+                            style={this.style.button}>
                             Exit
                         </Button>
-                        <Button type="button" onClick={this.deleteProject}>
+                        <Button
+                            type="button"
+                            style={this.style.button}
+                            onClick={this.deleteProject}>
                             <DeleteIcon/>
                             Delete Project
                         </Button>

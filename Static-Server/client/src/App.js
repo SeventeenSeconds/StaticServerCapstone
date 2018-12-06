@@ -58,6 +58,15 @@ class App extends Component {
         this.setState({userAuthenticated: value});
     }
 
+    style = {
+        loginButton: {
+            color: 'white',
+        },
+        toolbar: {
+            background: 'black'
+        }
+    };
+
     render() {
         // state - user is logged in - change view to projects
         let page, submitOption;
@@ -79,10 +88,10 @@ class App extends Component {
 
         return (
 
-            <div className="App">
+            <div className="App" style={this.style.app}>
                 <AppBar postition="static">
-                    <Toolbar>
-                        <Button onClick={this.switchSubmit}>{submitOption}</Button>
+                    <Toolbar style={this.style.toolbar}>
+                        <Button style={this.style.loginButton} onClick={this.switchSubmit}>{submitOption}</Button>
                     </Toolbar>
                 </AppBar>
                 <div class="form-holder">

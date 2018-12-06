@@ -58,6 +58,11 @@ class UserLoginForm extends Component {
         this.setState({passwordValue: value.currentTarget.value});
     }
 
+    style = {
+        color: 'black',
+        background: '#4ad1aa'
+    };
+
     render() {
 
         return (
@@ -84,7 +89,7 @@ class UserLoginForm extends Component {
                         />
                     </tr>
                     <tr>
-                        <Button type="button" onClick={this.handleLogin}>Login
+                        <Button style={this.style} type="button" onClick={this.handleLogin}>Login
                             <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
                         </Button>
                     </tr>
