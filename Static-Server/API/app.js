@@ -47,10 +47,6 @@ store.on('error', function(error) {
     console.log(error);
 });
 
-app.get('/bullshit', function(req, res){
-    res.send("hello world");
-});
-
 /*
     routing paths
  */
